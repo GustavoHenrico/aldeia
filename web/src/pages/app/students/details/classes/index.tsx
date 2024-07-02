@@ -1,24 +1,12 @@
 import { ClasseService } from "@/api/classes"
+import { StudentService } from "@/api/students"
 import { Student } from "@/models/student"
-import { CardBody, Select, Option, IconButton } from "@material-tailwind/react"
-import { PlusCircle, TrashSimple, } from '@phosphor-icons/react'
+import { CardBody, IconButton, Button } from "@material-tailwind/react"
+import { CaretLeft, CaretRight, TrashSimple, } from '@phosphor-icons/react'
 import { useQuery } from "@tanstack/react-query"
 import { useState } from "react"
+import { StudentDetailsClassesSkeleton } from "./skeletron"
 
-const list = [
-    {
-        name: "Math",
-        id: 1
-    },
-    {
-        name: "Banana",
-        id: 1
-    },
-    {
-        name: "Trator",
-        id: 1
-    },
-]
 
 type StudentDetailsClassesProps = {
     student: Student;
@@ -26,29 +14,49 @@ type StudentDetailsClassesProps = {
 
 export const StudentDetailsClasses = ({ student }: StudentDetailsClassesProps) => {
     const [pagination, setPagination] = useState({ page: 1, perPage: 10 })
-    const { FindAllPaginatedByStudent } = ClasseService()
-    const { data } = useQuery({ queryKey: ["queryByStudent", student.id], queryFn: () => FindAllPaginatedByStudent({ page: pagination.page, perPage: pagination.perPage, studentId: student.id }) });
+    const { RemoveStudentFromClass } = ClasseService();
+    const { FindAllClassByStudentPaginated } = StudentService();
+
+
+    const { data, refetch, isLoading } = useQuery({ queryKey: ["classeByStudent", student.id], queryFn: () => FindAllClassByStudentPaginated({ studentId: student.id, page: pagination.page, perPage: pagination.perPage }) })
+
+    const handleNextPage = () => {
+        setPagination({ ...pagination, page: pagination.page + 1 })
+    }
+    const handlePrevPage = () => {
+        setPagination({ ...pagination, page: pagination.page - 1 })
+    }
+
+    const handleRemoveClass = async (classeId: string) => {
+        await RemoveStudentFromClass(classeId, student.id);
+        await refetch();
+    }
 
 
     return (
         <CardBody className="flex flex-col gap-4 overflow-auto py-5 h-[calc(100vh-100px)] lg:h-[calc(100vh-300px)]">
-            <div className="flex gap-4">
-                <Select label="Select a new Classe">
-                    <Option>Teste</Option>
-                    <Option>Teste2</Option>
-                    <Option>Teste24</Option>
-                </Select>
-                <IconButton color="green" size="md"> <PlusCircle size={16} weight="duotone" /> </IconButton>
-            </div>
+            {isLoading ? (<StudentDetailsClassesSkeleton />) : (
+                <div className="flex flex-col gap-4 mt-5 h-full overflow-auto">
+                    {data && data.data.length > 0 ? data?.data?.map((item, index) => (
+                        <div key={index} className="flex justify-between items-center border p-4 border-blue-gray-100 rounded-lg">
+                            {item.name}
+                            <IconButton onClick={() => { handleRemoveClass(item.id) }} color="red" size="sm" variant="text"> <TrashSimple size={16} weight="duotone" /> </IconButton>
+                        </div>
+                    )) : (
+                        <div>
+                            <p className="text-center text-blue-gray-500">No classes found</p>
+                        </div>
+                    )}
+                </div>
+            )}
 
-            <div className="flex flex-col gap-4 mt-5 h-full overflow-auto">
-                {list?.map((item, index) => (
-                    <div key={index} className="flex justify-between items-center border p-4 border-blue-gray-100 rounded-lg">
-                        {item.name}
-                        <IconButton color="red" size="sm" variant="text"> <TrashSimple size={16} weight="duotone" /> </IconButton>
-                    </div>
-                ))}
-            </div>
-        </CardBody>
+            {data?.meta && data?.meta?.total > 10 && (
+                <div className="mt-auto flex justify-between items-center">
+                    <Button onClick={() => handlePrevPage()} disabled={!data?.meta?.prev} size="sm" variant="text" color="green" className="flex items-center justify-center gap-2"><CaretLeft /> Back Page</Button>
+                    <Button onClick={() => handleNextPage()} disabled={!data?.meta?.next} size="sm" variant="text" color="green" className="flex items-center justify-center gap-2">Next Page <CaretRight /></Button>
+                </div>
+            )}
+
+        </CardBody >
     )
 }

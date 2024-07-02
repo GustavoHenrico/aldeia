@@ -13,6 +13,17 @@ export class ClassesRepository {
         return await this.db.classe.create({ data })
     }
 
+    async addStudentToClass(classeId: string, studentId: string) {
+        return await this.db.classe.update({
+            where: { id: classeId },
+            data: {
+                students: {
+                    connect: { id: studentId }
+                }
+            }
+        })
+    }
+
     async findAllPaginated(page: number, perPage: number, search: string) {
         if (search) {
             return await this.paginate(this.db.classe, {
@@ -31,7 +42,11 @@ export class ClassesRepository {
             return await this.paginate(this.db.classe, { include: { _count: { select: { students: true, teachers: true, lessons: true } } } }, { page, perPage });
         }
     }
-    
+
+    async findAllStudentsFromClass(classeId: string) {
+        return await this.db.classe.findMany({ where: { students: { some: { id: classeId } } } })
+    }
+
     async findOneWithName(name: string) {
         return await this.db.classe.findMany({ where: { name } })
     }
@@ -42,6 +57,43 @@ export class ClassesRepository {
 
     async update(id: string, data: Prisma.ClasseUpdateInput) {
         return await this.db.classe.update({ where: { id }, data })
+    }
+
+    async removeStudentFromClass(classeId: string, studentId: string) {
+        return await this.db.classe.update({
+            where: { id: classeId },
+            data: {
+                students: {
+                    disconnect: { id: studentId }
+                }
+            }
+        })
+    }
+
+    async addTeacherToClass(classeId: string, teacherId: string) {
+        return await this.db.classe.update({
+            where: { id: classeId },
+            data: {
+                teachers: {
+                    connect: { id: teacherId }
+                }
+            }
+        })
+    }
+
+    async findAllTeachersFromClass(classeId: string) {
+        return await this.db.classe.findMany({ where: { teachers: { some: { id: classeId } } } })
+    }
+
+    async removeTeacherFromClass(classeId: string, teacherId: string) {
+        return await this.db.classe.update({
+            where: { id: classeId },
+            data: {
+                teachers: {
+                    disconnect: { id: teacherId }
+                }
+            }
+        })
     }
 
     async remove(id: string) {

@@ -1,7 +1,7 @@
 import { api } from "../client-api";
 import { Teacher } from "../../models/teacher";
 import { CreateTeacherRequest } from "./dtos/create-teacher-dto";
-import { FindAllTeacherRequest, FindAllTeacherResponse } from "./dtos/find-all-teacher-dto";
+import { FindAllClassByTeacherRequest, FindAllClassByTeacherResponse, FindAllTeacherRequest, FindAllTeacherResponse } from "./dtos/find-all-teacher-dto";
 import { UpdateTeacherRequest } from "./dtos/update-teacher-dto";
 
 const CreateTeacher = async (data: CreateTeacherRequest) => {
@@ -11,6 +11,12 @@ const CreateTeacher = async (data: CreateTeacherRequest) => {
 
 const FindAllPaginated = async ({ page, perPage, search }: FindAllTeacherRequest) => {
     const response = await api.get("teachers", { searchParams: { page: page, perPage: perPage, search: search || "" } }).json<FindAllTeacherResponse>();
+
+    return response;
+}
+
+const FindAllClassByTeacherPaginated = async ({ page, perPage, teacherId }: FindAllClassByTeacherRequest) => {
+    const response = await api.get(`teachers/${teacherId}/classes`, { searchParams: { page: page, perPage: perPage } }).json<FindAllClassByTeacherResponse>();
 
     return response;
 }
@@ -35,4 +41,4 @@ const ResetOnboarding = async (id: string) => {
     return response;
 }
 
-export const TeacherService = () => { return { CreateTeacher, FindAllPaginated, FindTeacherById, UpdateTeacher, DeleteTeacher, ResetOnboarding } }
+export const TeacherService = () => { return { CreateTeacher, FindAllPaginated, FindAllClassByTeacherPaginated, FindTeacherById, UpdateTeacher, DeleteTeacher, ResetOnboarding } }

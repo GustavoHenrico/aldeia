@@ -1,7 +1,7 @@
 import { Classe } from "../../models/classe";
 import { api } from "../client-api";
 import { CreateClasseRequest } from "./dtos/create-classe-dto";
-import { FindAllClasseByStudentRequest, FindAllClasseRequest, FindAllClasseResponse } from "./dtos/find-all-classe-dto";
+import {  FindAllClasseRequest, FindAllClasseResponse, FindAllStudentByClassRequest, FindAllStudentByClassResponse } from "./dtos/find-all-classe-dto";
 import { UpdateClasseRequest } from "./dtos/update-classe-dto";
 
 const CreateClasse = async (data: CreateClasseRequest) => {
@@ -16,9 +16,8 @@ const FindAllPaginated = async ({ page, perPage }: FindAllClasseRequest) => {
     return response;
 }
 
-const FindAllPaginatedByStudent = async ({ page, perPage, studentId }: FindAllClasseByStudentRequest) => {
-    const response = await api.get(`Classes/by-student/${studentId}`, { searchParams: { page: page, perPage: perPage } }).json<FindAllClasseResponse>();
-
+const FindAllStudentPaginated = async ({ page, perPage, classId }: FindAllStudentByClassRequest) => {
+    const response = await api.get(`Classes/${classId}/students`, { searchParams: { page: page, perPage: perPage } }).json<FindAllStudentByClassResponse>();
     return response;
 }
 
@@ -38,4 +37,19 @@ const DeleteClasse = async (id: string) => {
     return response;
 }
 
-export const ClasseService = () => { return { CreateClasse, FindAllPaginated, FindAllPaginatedByStudent, FindClasseById, UpdateClasse, DeleteClasse } }
+const AddStudentToClass = async (classId: string, studentId: string) => {
+    const response = await api.post(`Classes/${classId}/students/${studentId}`).json<Classe>();
+    return response;
+}
+
+const RemoveStudentFromClass = async (classId: string, studentId: string) => {
+    const response = await api.delete(`Classes/${classId}/students/${studentId}`).json<Classe>();
+    return response;
+}
+
+const RemoveTeacherFromClass = async (classId: string, teacherId: string) => {
+    const response = await api.delete(`Classes/${classId}/teachers/${teacherId}`).json<Classe>();
+    return response;
+}
+
+export const ClasseService = () => { return { CreateClasse, FindAllPaginated, FindAllStudentPaginated, FindClasseById, UpdateClasse, DeleteClasse, AddStudentToClass, RemoveStudentFromClass, RemoveTeacherFromClass } }

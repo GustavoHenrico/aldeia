@@ -1,4 +1,4 @@
-import { ConflictException, Injectable } from '@nestjs/common';
+import { BadRequestException, ConflictException, Injectable } from '@nestjs/common';
 import { CreateStudentDto } from './dto/create-student.dto';
 import { UpdateStudentDto } from './dto/update-student.dto';
 import { StudentsRepository } from './students.repository';
@@ -48,7 +48,7 @@ export class StudentsService {
     const student = await this.studentRepository.findOne(id);
 
     if (!student) {
-      throw new ConflictException('Student not found');
+      throw new BadRequestException('Student not found');
     }
 
     return student;
@@ -58,7 +58,7 @@ export class StudentsService {
     const student = await this.studentRepository.findOne(id);
 
     if (!student) {
-      throw new ConflictException('Student not found');
+      throw new BadRequestException('Student not found');
     }
 
     return await this.studentRepository.update(id, {
@@ -86,7 +86,7 @@ export class StudentsService {
     const student = await this.studentRepository.findOne(id);
 
     if (!student) {
-      throw new ConflictException('Student not found');
+      throw new BadRequestException('Student not found');
     }
 
     return await this.studentRepository.remove(id);

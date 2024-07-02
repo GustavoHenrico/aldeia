@@ -1,7 +1,7 @@
 import { Student } from "../../models/student";
 import { api } from "../client-api";
 import { CreateStudentRequest } from "./dtos/create-student-dto";
-import { FindAllStudentRequest, FindAllStudentResponse } from "./dtos/find-all-student-dto";
+import { FindAllClassByStudentRequest, FindAllClassByStudentResponse, FindAllStudentRequest, FindAllStudentResponse } from "./dtos/find-all-student-dto";
 import { UpdateStudentRequest } from "./dtos/update-student-dto";
 
 const CreateStudent = async (data: CreateStudentRequest) => {
@@ -12,6 +12,12 @@ const CreateStudent = async (data: CreateStudentRequest) => {
 const FindAllPaginated = async ({ page, perPage, search }: FindAllStudentRequest) => {
     const response = await api.get("Students", { searchParams: { page: page, perPage: perPage, search: search || "" } }).json<FindAllStudentResponse>();
     return response;
+}
+
+const FindAllClassByStudentPaginated = async ({ page, perPage, studentId }: FindAllClassByStudentRequest) => {
+    const response = await api.get(`Students/${studentId}/classes`, { searchParams: { page: page, perPage: perPage } }).json<FindAllClassByStudentResponse>();
+    return response;
+
 }
 
 const FindStudentById = async (id: string) => {
@@ -30,4 +36,4 @@ const DeleteStudent = async (id: string) => {
     return response;
 }
 
-export const StudentService = () => { return { CreateStudent, FindAllPaginated, FindStudentById, UpdateStudent, DeleteStudent } }
+export const StudentService = () => { return { CreateStudent, FindAllPaginated, FindAllClassByStudentPaginated, FindStudentById, UpdateStudent, DeleteStudent } }

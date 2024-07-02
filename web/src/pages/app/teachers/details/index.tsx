@@ -2,7 +2,7 @@ import { TeacherService } from "@/api/teachers";
 import { UpdateTeacherRequest } from "@/api/teachers/dtos/update-teacher-dto";
 import { Teacher } from "@/models/teacher";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Avatar, Button, Card, CardBody, CardFooter, CardHeader, Chip, Dialog, IconButton, Input, Option, Select, Tab, TabPanel, Tabs, TabsBody, TabsHeader, Typography } from "@material-tailwind/react";
+import {  Button, Card, CardFooter, CardHeader, Dialog, IconButton, Tab, TabPanel, Tabs, TabsBody, TabsHeader } from "@material-tailwind/react";
 import { PencilSimpleLine } from "@phosphor-icons/react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
@@ -38,7 +38,7 @@ type TeacherDetailsType = z.infer<typeof schema>;
 export const TeacherDetails = ({ teacher }: TeacherDetailsProps) => {
     const [open, setOpen] = useState(false);
     const handleOpen = () => setOpen(!open);
-    const { UpdateTeacher, ResetOnboarding } = TeacherService();
+    const { UpdateTeacher } = TeacherService();
     const query = useQueryClient();
 
     const { register, handleSubmit, watch, setValue, formState: { errors } } = useForm<TeacherDetailsType>({
@@ -116,7 +116,7 @@ export const TeacherDetails = ({ teacher }: TeacherDetailsProps) => {
                                 </TabPanel>
 
                                 <TabPanel value="classes" >
-                                    <TeacherDetailsClasses />
+                                    <TeacherDetailsClasses  teacher={teacher} />
                                 </TabPanel>
                             </TabsBody>
 

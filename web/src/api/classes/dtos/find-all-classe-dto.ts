@@ -1,3 +1,4 @@
+import { Student } from "@/models/student";
 import { Classe } from "../../../models/classe";
 import { Pagination } from "../../../models/pagination";
 
@@ -16,11 +17,16 @@ export interface FindAllClasseResponse {
     meta: Pagination
 }
 
-export interface FindAllClasseByStudentRequest {
-    studentId: string
+export interface FindAllStudentByClassRequest {
+    classId: string
     page: number
     perPage: number
     search?: string
     orderBy?: string
     sortedBy?: string
+}
+
+export interface FindAllStudentByClassResponse {
+    data: Student[]
+    meta: Pagination
 }

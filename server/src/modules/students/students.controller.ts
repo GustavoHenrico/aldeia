@@ -22,7 +22,6 @@ export class StudentsController {
     return this.studentsService.findAllPaginated(page, perPage, search);
   }
 
-
   @Get(':id/classes')
   findAllClassPaginated(@Param("id") studentId: string, @Query("page") page: number, @Query("perPage") perPage: number) {
     return this.studentsService.findAllClassPaginated(studentId, page, perPage);

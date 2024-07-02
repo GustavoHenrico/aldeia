@@ -36,4 +36,34 @@ export class ClassesController {
   remove(@Param('id') id: string) {
     return this.classesService.remove(id);
   }
+
+  @Post(':classeId/students/:studentId')
+  addStudentToClass(@Param('classeId') classeId: string, @Param('studentId') studentId: string) {
+    return this.classesService.addStudentToClass(classeId, studentId);
+  }
+
+  @Get(':classeId/students')
+  findAllStudentsFromClass(@Param('classeId') classeId: string) {
+    return this.classesService.findAllStudentsFromClass(classeId);
+  }
+
+  @Delete(':classeId/students/:studentId')
+  removeStudentFromClass(@Param('classeId') classeId: string, @Param('studentId') studentId: string) {
+    return this.classesService.removeStudentFromClass(classeId, studentId);
+  }
+
+  @Post(':classeId/teachers/:teacherId')
+  addTeacherToClass(@Param('classeId') classeId: string, @Param('teacherId') teacherId: string) {
+    return this.classesService.addTeacherToClass(classeId, teacherId);
+  }
+
+  @Get(':classeId/teachers')
+  findAllTeachersFromClass(@Param('classeId') classeId: string) {
+    return this.classesService.findAllTeachersFromClass(classeId);
+  }
+
+  @Delete(':classeId/teachers/:teacherId')
+  removeTeacherFromClass(@Param('classeId') classeId: string, @Param('teacherId') teacherId: string) {
+    return this.classesService.removeTeacherFromClass(classeId, teacherId);
+  }
 }
