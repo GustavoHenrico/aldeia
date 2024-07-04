@@ -38,10 +38,13 @@ export const StudentCreate = () => {
 
     const handleOpen = () => {
         if (!open) {
+            setOpen(open)
             append({ name: "", phone: "" })
             reset()
+        } else {
+            reset()
+            setOpen(!open)
         }
-        setOpen(!open)
     };
 
 
