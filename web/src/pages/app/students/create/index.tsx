@@ -33,17 +33,18 @@ export const StudentCreate = () => {
     const [open, setOpen] = React.useState(false);
     const query = useQueryClient();
     const { register, control, handleSubmit, formState: { errors }, reset } = useForm<StudentCreateForm>({ resolver: zodResolver(schema) });
-    const { fields, append, remove } = useFieldArray({ name: "responsibles", control: control })
+    const { fields, append, remove, replace } = useFieldArray({ name: "responsibles", control: control })
     const { CreateStudent } = StudentService()
 
     const handleOpen = () => {
-        if (!open) {
-            setOpen(open)
+        if (open == false) {
+            setOpen(true)
             append({ name: "", phone: "" })
             reset()
         } else {
             reset()
-            setOpen(!open)
+            replace([])
+            setOpen(false)
         }
     };
 
