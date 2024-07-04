@@ -34,7 +34,7 @@ export const TeacherDetailsClasses = ({ teacher }: TeacherDetailsClasses) => {
 
 
     return (
-        <CardBody className="flex flex-col gap-4 overflow-auto py-5 h-[calc(100vh-100px)] lg:h-[calc(100vh-300px)]">
+        <CardBody className="flex flex-col gap-4 overflow-auto py-5 h-[calc(100vh-100px)] lg:h-[calc(100vh-450px)]">
             {isLoading ? (<TeacherDetailsClassesSkeleton />) : (
                 <div className="flex flex-col gap-4 mt-5 h-full overflow-auto">
                     {data && data.data.length > 0 ? data?.data?.map((item, index) => (

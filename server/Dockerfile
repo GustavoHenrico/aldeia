@@ -5,7 +5,6 @@ COPY prisma ./prisma/
 RUN npm install
 COPY . .
 RUN npm run build
-# RUN npx prisma migrate deploy
 
 FROM node:18
 WORKDIR /app

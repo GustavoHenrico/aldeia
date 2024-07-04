@@ -92,9 +92,9 @@ export const StudentCreate = () => {
                             </div>
 
                             <Typography variant="h6" color="blue-gray">Address Information</Typography>
+                            <Input label={!!errors.city ? `City - ${errors.city.message}` : "City"} error={!!errors.city} color="green" size="lg" {...register("city")} />
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
                                 <Input label={!!errors.street ? `Street - ${errors.street.message}` : "Street"} error={!!errors.street} color="green" size="lg" {...register("street")} />
-                                <Input label={!!errors.city ? `City - ${errors.city.message}` : "City"} error={!!errors.city} color="green" size="lg" {...register("city")} />
                                 <Input label={!!errors.state ? `State - ${errors.state.message}` : "State"} error={!!errors.state} color="green" size="lg" {...register("state")} />
                                 <Input label={!!errors.zipCode ? `Postal code - ${errors.zipCode.message}` : "Postal code"} error={!!errors.zipCode} color="green" size="lg" {...register("zipCode")} />
                                 <Input label={!!errors.neighborhood ? `Neighborhood - ${errors.neighborhood.message}` : "Neighborhood"} error={!!errors.neighborhood} color="green" size="lg" {...register("neighborhood")} />
@@ -109,8 +109,8 @@ export const StudentCreate = () => {
                             {fields.map((field, index) => (
                                 <div key={index} className="flex w-full items-center gap-2">
                                     <div key={field.id} className="grid grid-cols-1 gap-2 md:grid-cols-2 w-full">
-                                    <Input color="green" size="lg" {...register(`responsibles.${index}.name`)} label={!!errors.responsibles?.[index]?.name ? `Name - ${errors.responsibles?.[index]?.name?.message}` : "Name"} error={!!errors.responsibles?.[index]?.name} />
-                                            <Input color="green" size="lg" {...register(`responsibles.${index}.phone`)} label={!!errors.responsibles?.[index]?.phone ? `Phone - ${errors.responsibles?.[index]?.phone?.message}` : "Phone"} error={!!errors.responsibles?.[index]?.phone} />
+                                        <Input color="green" size="lg" {...register(`responsibles.${index}.name`)} label={!!errors.responsibles?.[index]?.name ? `Name - ${errors.responsibles?.[index]?.name?.message}` : "Name"} error={!!errors.responsibles?.[index]?.name} />
+                                        <Input color="green" size="lg" {...register(`responsibles.${index}.phone`)} label={!!errors.responsibles?.[index]?.phone ? `Phone - ${errors.responsibles?.[index]?.phone?.message}` : "Phone"} error={!!errors.responsibles?.[index]?.phone} />
                                     </div>
                                     <div>
                                         <IconButton onClick={() => remove(index)} className="text-red-500" color="blue-gray" variant="text">

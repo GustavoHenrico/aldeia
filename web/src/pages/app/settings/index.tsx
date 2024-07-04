@@ -1,18 +1,18 @@
-import { useAuth } from "@/contexts/authProvider";
+import { OnboardingService } from "@/api/onboarding";
+import { userService } from "@/api/users";
+import { useAuth } from "@/contexts/authProvider"
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Avatar, Button, Card, CardBody, CardFooter, CardHeader, IconButton, Input, Option, Select, Typography } from "@material-tailwind/react";
+import { Avatar, Button, Card, CardBody, CardFooter, CardHeader, Input, Option, Select, Typography } from "@material-tailwind/react"
 import { useMutation } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
-import { z } from "zod";
 import { toast } from "sonner";
-import { SignOut } from "@phosphor-icons/react";
-import { OnboardingService } from "@/api/onboarding";
+import { z } from "zod";
+
 
 const schema = z.object({
     name: z.string().min(1, { message: "Is required" }),
     email: z.string().email({ message: "Invalid email address" }),
     phone: z.string().min(1, { message: "Is required" }),
-    password: z.string().min(6, { message: "Should contain at least 6 characters" }),
     street: z.string().min(1, { message: "Is required" }),
     neighborhood: z.string().min(1, { message: "Is required" }),
     zipCode: z.string().min(1, { message: "Is required" }),
@@ -23,20 +23,20 @@ const schema = z.object({
     companyName: z.string().optional(),
     cpf: z.string().optional(),
     rg: z.string().optional(),
-})
+});
 
-type OnboardingForm = z.infer<typeof schema>;
+type FormValues = z.infer<typeof schema>;
 
-export const OnboardingPage = () => {
+export const SettingsPage = () => {
     const { user } = useAuth();
-    const { CompleteOnboarding } = OnboardingService()
-    const { logOut } = useAuth()
-    const { register, handleSubmit, watch, setValue, formState: { errors } } = useForm<OnboardingForm>({
-        resolver: zodResolver(schema), defaultValues: {
+    const { UpdateMe } = userService();
+
+    const { register, formState: { errors }, watch, setValue, handleSubmit } = useForm<FormValues>({
+        resolver: zodResolver(schema),
+        defaultValues: {
             email: user?.email,
             name: user?.name,
             phone: user?.phone || "",
-            password: "",
             cnpj: user?.employments?.[0]?.cnpj || "",
             employment: user?.employments?.[0]?.type.toString() || "",
             rg: user?.employments?.[0]?.rg || "",
@@ -48,28 +48,28 @@ export const OnboardingPage = () => {
             street: user?.street || "",
             zipCode: user?.zipCode || "",
         }
-    })
+    });
+
+
 
     const { mutateAsync, isPending } = useMutation({
-        mutationKey: ["createOnboarding"],
-        mutationFn: CompleteOnboarding,
+        mutationKey: ["UpdateUser"],
+        mutationFn: UpdateMe,
         onSuccess() {
-            toast.success("Onboarding completed successfully");
-            window.location.href = "/";
+            toast.success("User updated successfully");
         },
         onError() {
-            toast.error("An error occurred while trying to complete the onboarding");
+            toast.error("Failed to update user");
         }
     })
 
-    const onSubmit = async (data: OnboardingForm) => {
+    const onSubmit = async (data: FormValues) => {
         await mutateAsync({
             id: user?.id || "",
             name: data.name,
             email: data.email,
             phone: data.phone,
             employment: data.employment || "",
-            password: data.password,
             street: data.street,
             neighborhood: data.neighborhood,
             state: data.state,
@@ -79,6 +79,7 @@ export const OnboardingPage = () => {
             companyName: data.companyName,
             cpf: data.cpf,
             rg: data.rg,
+
         });
     }
 
@@ -97,11 +98,6 @@ export const OnboardingPage = () => {
                                 <Input label={!!errors.name ? `Name - ${errors.name.message}` : "Name"} error={!!errors.name} color="green" size="lg" {...register("name")} />
                                 <Input label={!!errors.email ? `Email - ${errors.email.message}` : "Email"} error={!!errors.email} color="green" size="lg" type="email" {...register("email")} />
                                 <Input label={!!errors.phone ? `Phone - ${errors.phone.message}` : "Phone"} error={!!errors.phone} color="green" size="lg" {...register("phone")} />
-                            </div>
-
-                            <Typography variant="h6" color="blue-gray">Password</Typography>
-                            <div className="grid grid-cols-1 gap-2">
-                                <Input label={!!errors.password ? `Password - ${errors.password.message}` : "Password"} error={!!errors.password} type="password" color="green" {...register("password")} />
                             </div>
 
                             <Typography variant="h6" color="blue-gray">Address Information</Typography>
@@ -134,13 +130,14 @@ export const OnboardingPage = () => {
                             )}
                         </CardBody>
 
-                        <CardFooter className="flex justify-between items-center">
-                            <IconButton onClick={() => { logOut() }} variant="text" color="red"><SignOut weight="fill" size={22} /></IconButton>
-                            <Button loading={isPending} type="submit" variant="text" color="green">Submit</Button>
+                        <CardFooter>
+                            <div className="flex justify-end items-center w-full">
+                                <Button loading={isPending} color="green" type="submit" >Update</Button>
+                            </div>
                         </CardFooter>
                     </form>
                 </Card>
             </main>
         </div>
-    );
-};
+    )
+}

@@ -6,10 +6,10 @@ export const OnboardingLayout = () => {
     const { isAuthenticated, user } = useAuth();
 
     if (!isAuthenticated) return (<Navigate to="/auth/login" />);
-    if (user?.onboardings?.[0].done) return (<Navigate to="/" />);
+    if (user?.onboardings?.[0].done) return (<Navigate to="/dashboard" />);
 
     return (
-        <div className="flex h-screen w-full justify-center items-center bg-gray-100">
+        <div className="bg-gray-100">
             <Outlet />
         </div>
     )

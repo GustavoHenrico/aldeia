@@ -9,6 +9,7 @@ import { OnboardingLayout } from "./pages/onboarding/layout"
 import { OnboardingPage } from "./pages/onboarding"
 import { ClassesPage } from "./pages/app/classes"
 import { DashboardPage } from "./pages/app/dashboard"
+import { SettingsPage } from "./pages/app/settings"
 
 export const App = () => {
 
@@ -23,7 +24,7 @@ export const App = () => {
             <Route path="teachers" element={<TeacherPage />} />
             <Route path="classes" element={<ClassesPage />} />
             <Route path="lessons" element={<h1>Dashboard</h1>} />
-            <Route path="settings" element={<h1>Dashboard</h1>} />
+            <Route path="settings" element={<SettingsPage />} />
           </Route>
 
           <Route path="/auth" element={<AuthLayout />} >

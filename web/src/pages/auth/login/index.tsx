@@ -26,7 +26,7 @@ export const LoginPage = () => {
         onSuccess: (response) => {
             localStorage.setItem("tokens", JSON.stringify(response));
             setIsAuthenticated(true);
-            navigate("/");
+            navigate("/dashboard");
         },
         onError: () => toast.error("Invalid email or password")
     })
