@@ -34,19 +34,19 @@ services:
     networks:
       - network
 
-  # web:
-  #   build:
-  #     context: ../web
-  #     dockerfile: Dockerfile
-  #   container_name: front
-  #   environment:
-  #     VITE_API_URL: "http://api:3333"
-  #   ports:
-  #     - "3000:80"
-  #   depends_on:
-  #     - api
-  #   networks:
-  #     - network
+  web:
+    build:
+      context: ../web
+      dockerfile: Dockerfile
+    container_name: front
+    environment:
+      VITE_API_URL: "http://api:3333"
+    ports:
+      - "3000:80"
+    depends_on:
+      - api
+    networks:
+      - network
 
 volumes:
   postgres-data:
