@@ -11,8 +11,8 @@ const CreateLesson = async (data: CreateLessonRequest) => {
     return response;
 }
 
-const FindAllPaginated = async ({ page, perPage }: FindAllLessonRequest) => {
-    const response = await api.get("Lessons", { searchParams: { page: page, perPage: perPage } }).json<FindAllLessonResponse>();
+const FindAllPaginated = async ({ page, perPage, search }: FindAllLessonRequest) => {
+    const response = await api.get("Lessons", { searchParams: { page: page, perPage: perPage, search } }).json<FindAllLessonResponse>();
     return response;
 }
 

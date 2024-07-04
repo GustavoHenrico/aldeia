@@ -5,7 +5,7 @@ import { Pagination } from "../../../models/pagination";
 export interface FindAllLessonRequest {
     page: number
     perPage: number
-    search?: string
+    search: string
     orderBy?: string
     sortedBy?: string
 }
