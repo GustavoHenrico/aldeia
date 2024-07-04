@@ -38,7 +38,7 @@ services:
     build:
       context: ../web
       dockerfile: Dockerfile
-    container_name: web
+    container_name: front
     environment:
       VITE_API_URL: "http://api:3333"
     ports:

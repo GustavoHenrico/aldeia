@@ -55,7 +55,7 @@ export const OnboardingPage = () => {
         mutationFn: CompleteOnboarding,
         onSuccess() {
             toast.success("Onboarding completed successfully");
-            window.location.href = "/";
+            window.location.href = "/dashboard";
         },
         onError() {
             toast.error("An error occurred while trying to complete the onboarding");
