@@ -19,6 +19,10 @@ export class ClassesService {
     });
   }
 
+  async findAll() {
+    return await this.classesRepository.findAll();
+  }
+
   async addTeacherToClass(classeId: string, teacherId: string) {
     return await this.classesRepository.addTeacherToClass(classeId, teacherId);
   }
@@ -26,7 +30,7 @@ export class ClassesService {
   async removeTeacherFromClass(classeId: string, teacherId: string) {
     return await this.classesRepository.removeTeacherFromClass(classeId, teacherId);
   }
-  
+
   async findAllTeachersFromClass(classeId: string) {
     return await this.classesRepository.findAllTeachersFromClass(classeId);
   }

@@ -3,7 +3,6 @@ import { CreateLessonDto } from './dto/create-lesson.dto';
 import { UpdateLessonDto } from './dto/update-lesson.dto';
 import { LessonsRepository } from './lessons.repository';
 import { ClassesRepository } from '../classes/classes.repository';
-import { UsersRepository } from '../users/users.repository';
 import { TeachersRepository } from '../teachers/teacher.repository';
 
 @Injectable()
@@ -15,11 +14,11 @@ export class LessonsService {
   ) { }
 
   async create(userId: string, classId: string, createLessonDto: CreateLessonDto) {
-    const teacher = await this.teachersRepository.findOne(userId);
+    // const teacher = await this.teachersRepository.findOne(userId);
 
-    if (!teacher) {
-      throw new BadRequestException('Teacher not found');
-    }
+    // if (!teacher) {
+    //   throw new BadRequestException('Teacher not found');
+    // }
 
     const lesson = await this.lessonsRepository.findOneWithName(createLessonDto.name);
 
@@ -35,9 +34,9 @@ export class LessonsService {
 
     return await this.lessonsRepository.create({
       classe: {
-        connect: { id: classId }
+        connect: { id: classe.id }
       },
-      ...createLessonDto
+      name: createLessonDto.name,
     });
   }
 

@@ -7,7 +7,12 @@ import { UpdateLessonRequest } from "./dtos/update-lesson-dto";
 
 
 const CreateLesson = async (data: CreateLessonRequest) => {
-    const response = await api.post("Lessons", { json: data }).json<Lesson>();
+    const response = await api.post(`Lessons/${data.classId}`, { json: data }).json<Lesson>();
+    return response;
+}
+
+const FindAll = async () => {
+    const response = await api.get("Classes/all").json<Lesson[]>();
     return response;
 }
 
@@ -31,4 +36,4 @@ const DeleteLesson = async (id: string) => {
     return response;
 }
 
-export const LessonService = () => { return { CreateLesson, FindAllPaginated, FindLessonById, UpdateLesson, DeleteLesson } }
+export const LessonService = () => { return { CreateLesson, FindAllPaginated, FindAll, FindLessonById, UpdateLesson, DeleteLesson } }

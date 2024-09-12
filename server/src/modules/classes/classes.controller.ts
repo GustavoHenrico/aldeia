@@ -22,6 +22,11 @@ export class ClassesController {
     return this.classesService.findAllPaginated(page, perPage, search);
   }
 
+  @Get('all')
+  findAll() {
+    return this.classesService.findAll();
+  }
+
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.classesService.findOne(id);

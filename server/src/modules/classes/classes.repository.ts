@@ -13,6 +13,10 @@ export class ClassesRepository {
         return await this.db.classe.create({ data })
     }
 
+    async findAll() {
+        return await this.db.classe.findMany()
+    }
+
     async addStudentToClass(classeId: string, studentId: string) {
         return await this.db.classe.update({
             where: { id: classeId },

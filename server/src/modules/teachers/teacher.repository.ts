@@ -42,16 +42,16 @@ export class TeachersRepository {
   }
 
   async findOne(id: string) {
-    return this.db.teacher.findUnique({ where: { id }, include: { user: { include: { onboardings: true, employments: true } } } });
+    return await this.db.teacher.findFirst({ where: { id }, include: { user: { include: { onboardings: true, employments: true } } } });
   }
 
 
   async update(id: string, data: Prisma.TeacherUpdateInput) {
-    return this.db.teacher.update({ where: { id }, data });
+    return await this.db.teacher.update({ where: { id }, data });
   }
 
   async remove(id: string) {
-    return this.db.teacher.delete({ where: { id } });
+    return await this.db.teacher.delete({ where: { id } });
   }
 
   async resetOnboarding(id: string) {
