@@ -87,18 +87,23 @@ model Teacher {
 }
 
 model Student {
-  id           String  @id @default(uuid())
-  name         String
-  email        String
-  cpf          String
-  rg           String
-  phone        String
-  imageUrl     String
-  street       String?
-  neighborhood String?
-  city         String?
-  state        String?
-  zipCode      String?
+  id            String  @id @default(uuid())
+  name          String
+  email         String
+  cpf           String?
+  rg            String?
+  nis           String?
+  observation   String?
+  priorityGroup String?
+  recordNumber  String?
+  forwarding    String?
+  phone         String?
+  imageUrl      String?
+  street        String?
+  neighborhood  String?
+  city          String?
+  state         String?
+  zipCode       String?
 
   classes Classe? @relation(fields: [classId], references: [id])
   classId String?

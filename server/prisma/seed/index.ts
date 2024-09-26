@@ -15,7 +15,7 @@ const main = async () => {
     await CreateManagers(20, prisma);
     const classes = await CreateClasses(10, prisma);
     await CreateTeachersByClasses(20, classes, prisma);
-    await CreateStudentsByClasses(900, classes, prisma);
+    await CreateStudentsByClasses(1, classes, prisma);
     await CreateLessonsByClasses(2, classes, prisma);
 }
 

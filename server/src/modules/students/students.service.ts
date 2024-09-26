@@ -16,24 +16,48 @@ export class StudentsService {
       throw new ConflictException('Student already exists');
     }
 
-    return await this.studentRepository.create({
-      name: createStudentDto.name,
-      email: createStudentDto.email,
-      phone: createStudentDto.phone,
-      cpf: createStudentDto.cpf,
-      imageUrl: faker.image.urlPlaceholder({ text: createStudentDto.name.slice(0, 2), backgroundColor: faker.color.rgb().replace("#", ""), textColor: "fff", width: 200, height: 200 }),
-      rg: createStudentDto.rg,
-      city: createStudentDto.city,
-      neighborhood: createStudentDto.neighborhood,
-      state: createStudentDto.state,
-      street: createStudentDto.street,
-      zipCode: createStudentDto.zipCode,
-      responsibles: {
-        createMany: {
-          data: createStudentDto.responsibles
+    if (createStudentDto.responsibles.length > 0) {
+      return await this.studentRepository.create({
+        name: createStudentDto.name,
+        email: createStudentDto.email,
+        phone: createStudentDto.phone,
+        cpf: createStudentDto.cpf,
+        imageUrl: faker.image.urlPlaceholder({ text: createStudentDto.name.slice(0, 2), backgroundColor: faker.color.rgb().replace("#", ""), textColor: "fff", width: 200, height: 200 }),
+        rg: createStudentDto.rg,
+        nis: createStudentDto.nis,
+        forwarding: createStudentDto.forwarding,
+        priorityGroup: createStudentDto.priorityGroup,
+        recordNumber: createStudentDto.recordNumber,
+        city: createStudentDto.city,
+        neighborhood: createStudentDto.neighborhood,
+        state: createStudentDto.state,
+        street: createStudentDto.street,
+        zipCode: createStudentDto.zipCode,
+        responsibles: {
+          createMany: {
+            data: createStudentDto.responsibles
+          }
         }
-      }
-    });
+      });
+    } else {
+      return await this.studentRepository.create({
+        name: createStudentDto.name,
+        email: createStudentDto.email,
+        phone: createStudentDto.phone,
+        cpf: createStudentDto.cpf,
+        imageUrl: faker.image.urlPlaceholder({ text: createStudentDto.name.slice(0, 2), backgroundColor: faker.color.rgb().replace("#", ""), textColor: "fff", width: 200, height: 200 }),
+        rg: createStudentDto.rg,
+        nis: createStudentDto.nis,
+        forwarding: createStudentDto.forwarding,
+        priorityGroup: createStudentDto.priorityGroup,
+        recordNumber: createStudentDto.recordNumber,
+        city: createStudentDto.city,
+        neighborhood: createStudentDto.neighborhood,
+        state: createStudentDto.state,
+        street: createStudentDto.street,
+        zipCode: createStudentDto.zipCode,
+      });
+    }
   }
 
   async findAllPaginated(page: number, perPage: number, search: string) {
@@ -66,6 +90,7 @@ export class StudentsService {
       email: updateStudentDto.email,
       phone: updateStudentDto.phone,
       cpf: updateStudentDto.cpf,
+      observation: updateStudentDto.observation,
       rg: updateStudentDto.rg,
       state: updateStudentDto.state,
       neighborhood: updateStudentDto.neighborhood,

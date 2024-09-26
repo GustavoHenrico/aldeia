@@ -13,17 +13,32 @@ export class CreateStudentDto {
 
     @ApiProperty()
     @IsString()
-    @Length(11, 14, { message: 'CPF must be between 11 and 14 characters' })
-    cpf: string;
+    cpf?: string;
 
     @ApiProperty()
     @IsString()
-    @Length(1, 20, { message: 'RG must be between 1 and 20 characters' })
-    rg: string;
+    rg?: string;
 
     @ApiProperty()
     @IsString()
-    phone: string;
+    phone?: string;
+
+
+    @ApiProperty()
+    @IsString()
+    nis?: string;
+
+    @ApiProperty()
+    @IsString()
+    priorityGroup?: string;
+
+    @ApiProperty()
+    @IsString()
+    recordNumber?: string;
+
+    @ApiProperty()
+    @IsString()
+    forwarding?: string;
 
     @ApiProperty()
     @IsOptional()
@@ -57,7 +72,7 @@ export class CreateStudentDto {
     @IsOptional()
     zipCode?: string | null;
 
-    @ApiProperty({ type: () => [Responsible] }) 
+    @ApiProperty({ type: () => [Responsible] })
     @IsArray()
     @IsOptional()
     responsibles?: Responsible[];

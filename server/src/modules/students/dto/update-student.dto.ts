@@ -13,12 +13,10 @@ export class UpdateStudentDto {
 
     @ApiProperty()
     @IsString()
-    @Length(11, 14, { message: 'CPF must be between 11 and 14 characters' })
     cpf: string;
 
     @ApiProperty()
     @IsString()
-    @Length(1, 20, { message: 'RG must be between 1 and 20 characters' })
     rg: string;
 
     @ApiProperty()
@@ -38,6 +36,12 @@ export class UpdateStudentDto {
     @ApiProperty({ required: false })
     @IsString()
     @IsOptional()
+    observation?: string | null;
+
+
+    @ApiProperty({ required: false })
+    @IsString()
+    @IsOptional()
     city?: string | null;
 
     @ApiProperty({ required: false })
@@ -48,7 +52,6 @@ export class UpdateStudentDto {
     @ApiProperty({ required: false })
     @IsString()
     @IsOptional()
-    @IsPostalCode('BR', { message: 'Invalid Brazilian ZIP code format' })
     zipCode?: string | null;
 
     @ApiProperty({ required: false })
