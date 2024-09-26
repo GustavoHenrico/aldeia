@@ -12,17 +12,21 @@ import { StudentService } from "@/api/students";
 const schema = z.object({
     name: z.string().min(1, { message: "Is required" }),
     email: z.string().email({ message: "Invalid email address" }),
-    phone: z.string().min(1, { message: "Is required" }),
-    cpf: z.string().min(1, { message: "Is required" }),
-    rg: z.string().min(1, { message: "Is required" }),
-    street: z.string().min(1, { message: "Is required" }).optional(),
-    neighborhood: z.string().min(1, { message: "Is required" }).optional(),
-    zipCode: z.string().min(1, { message: "Is required" }).optional(),
-    city: z.string().min(1, { message: "Is required" }).optional(),
-    state: z.string().min(1, { message: "Is required" }).optional(),
+    phone: z.string().optional(),
+    cpf: z.string().optional(),
+    nis: z.string().optional(),
+    priorityGroup: z.string().optional(),
+    recordNumber: z.string().optional(),
+    forwarding: z.string().optional(),
+    rg: z.string().optional(),
+    street: z.string().optional(),
+    neighborhood: z.string().optional(),
+    zipCode: z.string().optional(),
+    city: z.string().optional(),
+    state: z.string().optional(),
     responsibles: z.array(z.object({
-        name: z.string().min(1, { message: "Is required" }),
-        phone: z.string().min(1, { message: "Is required" })
+        name: z.string().optional(),
+        phone: z.string().optional()
     }))
 })
 
@@ -68,6 +72,10 @@ export const StudentCreate = () => {
             city: data.city,
             email: data.email,
             name: data.name,
+            forwarding: data.forwarding,
+            nis: data.nis,
+            priorityGroup: data.priorityGroup,
+            recordNumber: data.recordNumber,
             cpf: data.cpf,
             neighborhood: data.neighborhood,
             phone: data.phone,
@@ -93,11 +101,15 @@ export const StudentCreate = () => {
                                 <Input label={!!errors.cpf ? `CPF - ${errors.cpf.message}` : "CPF"} error={!!errors.cpf} color="green" size="lg" {...register("cpf")} />
                                 <Input label={!!errors.rg ? `RG - ${errors.rg.message}` : "RG"} error={!!errors.rg} color="green" size="lg" {...register("rg")} />
                                 <Input label={!!errors.phone ? `Phone - ${errors.phone.message}` : "Phone"} error={!!errors.phone} color="green" size="lg" {...register("phone")} />
+                                <Input label={!!errors.nis ? `Nis - ${errors.nis.message}` : "Nis"} error={!!errors.nis} color="green" size="lg" {...register("nis")} />
+                                <Input label={!!errors.priorityGroup ? `Priority Group - ${errors.priorityGroup.message}` : "Priority Group"} error={!!errors.priorityGroup} color="green" size="lg" {...register("priorityGroup")} />
+                                <Input label={!!errors.recordNumber ? `Record Number - ${errors.recordNumber.message}` : "Record Number"} error={!!errors.recordNumber} color="green" size="lg" {...register("recordNumber")} />
+                                <Input label={!!errors.forwarding ? `Forwarding - ${errors.forwarding.message}` : "Forwarding"} error={!!errors.forwarding} color="green" size="lg" {...register("forwarding")} />
                             </div>
 
                             <Typography variant="h6" color="blue-gray">Address Information</Typography>
                             <Input label={!!errors.city ? `City - ${errors.city.message}` : "City"} error={!!errors.city} color="green" size="lg" {...register("city")} />
-                            <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
+                            <div className="grid grid-cols-1 gap-2 md:grid-cols-2">
                                 <Input label={!!errors.street ? `Street - ${errors.street.message}` : "Street"} error={!!errors.street} color="green" size="lg" {...register("street")} />
                                 <Input label={!!errors.state ? `State - ${errors.state.message}` : "State"} error={!!errors.state} color="green" size="lg" {...register("state")} />
                                 <Input label={!!errors.zipCode ? `Postal code - ${errors.zipCode.message}` : "Postal code"} error={!!errors.zipCode} color="green" size="lg" {...register("zipCode")} />
@@ -111,8 +123,8 @@ export const StudentCreate = () => {
                                 </IconButton>
                             </div>
                             {fields.map((field, index) => (
-                                <div key={index} className="flex w-full items-center gap-2">
-                                    <div key={field.id} className="grid grid-cols-1 gap-2 md:grid-cols-2 w-full">
+                                <div key={index} className="flex items-center w-full gap-2">
+                                    <div key={field.id} className="grid w-full grid-cols-1 gap-2 md:grid-cols-2">
                                         <Input color="green" size="lg" {...register(`responsibles.${index}.name`)} label={!!errors.responsibles?.[index]?.name ? `Name - ${errors.responsibles?.[index]?.name?.message}` : "Name"} error={!!errors.responsibles?.[index]?.name} />
                                         <Input color="green" size="lg" {...register(`responsibles.${index}.phone`)} label={!!errors.responsibles?.[index]?.phone ? `Phone - ${errors.responsibles?.[index]?.phone?.message}` : "Phone"} error={!!errors.responsibles?.[index]?.phone} />
                                     </div>
@@ -125,7 +137,7 @@ export const StudentCreate = () => {
                             ))}
 
                         </CardBody>
-                        <CardFooter className="flex justify-end items-center w-full">
+                        <CardFooter className="flex items-center justify-end w-full">
                             <Button variant="text" color="gray" onClick={handleOpen}>Cancel</Button>
                             <Button loading={isPending} variant="text" color="green" type="submit">Create</Button>
                         </CardFooter>

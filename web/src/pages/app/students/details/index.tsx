@@ -19,18 +19,23 @@ type StudentDetailsProps = {
 const schema = z.object({
     name: z.string().min(1, { message: "Is required" }),
     email: z.string().email({ message: "Invalid email address" }),
-    phone: z.string().min(1, { message: "Is required" }),
-    cpf: z.string().regex(/^\d{11}$/, { message: "Should contain 11 digits" }),
-    rg: z.string().regex(/^\d{9}$/, { message: "Should contain 9 digits" }),
-    street: z.string().min(1, { message: "Is required" }).optional(),
-    neighborhood: z.string().min(1, { message: "Is required" }).optional(),
-    zipCode: z.string().min(1, { message: "Is required" }).optional(),
-    city: z.string().min(1, { message: "Is required" }).optional(),
-    state: z.string().min(1, { message: "Is required" }).optional(),
+    phone: z.string().optional(),
+    cpf: z.string().optional(),
+    rg: z.string().optional(),
+    street: z.string().optional(),
+    nis: z.string().optional(),
+    priorityGroup: z.string().optional(),
+    recordNumber: z.string().optional(),
+    forwarding: z.string().optional(),
+    neighborhood: z.string().optional(),
+    observation: z.string().optional(),
+    zipCode: z.string().optional(),
+    city: z.string().optional(),
+    state: z.string().optional(),
     responsibles: z.array(z.object({
-        id: z.string().min(1, { message: "Is required" }),
-        name: z.string().min(1, { message: "Is required" }),
-        phone: z.string().min(1, { message: "Is required" })
+        id: z.string(),
+        name: z.string(),
+        phone: z.string()
     }))
 });
 
@@ -96,7 +101,7 @@ export const StudentDetails = ({ student }: StudentDetailsProps) => {
 
 
 
-                            <CardFooter className="flex justify-end items-center w-full">
+                            <CardFooter className="flex items-center justify-end w-full">
                                 <Button variant="text" color="blue-gray" onClick={handleOpen}>Cancel</Button>
                                 <Button loading={isPending} variant="text" color="green" type="submit">Edit</Button>
                             </CardFooter>

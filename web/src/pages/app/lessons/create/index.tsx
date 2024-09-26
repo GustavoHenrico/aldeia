@@ -56,7 +56,7 @@ export const LessonsCreate = () => {
                             <Select
                                 color="green"
                                 size="lg"
-                                label="Select Country"
+                                label="Select Classe"
                                 onChange={(e) => setClassId(e || "")}
                                 selected={(element) =>
                                     element &&
