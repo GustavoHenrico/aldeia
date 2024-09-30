@@ -1,4 +1,4 @@
-import { CardBody, CardFooter } from "@material-tailwind/react"
+import { CardBody } from "@material-tailwind/react"
 
 
 
