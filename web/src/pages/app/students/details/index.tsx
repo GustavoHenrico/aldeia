@@ -49,7 +49,7 @@ export const StudentDetails = ({ student }: StudentDetailsProps) => {
     const { UpdateStudent } = StudentService();
     const query = useQueryClient();
 
-    const { register, handleSubmit, watch, formState: { errors } } = useForm<StudentDetailsType>({ resolver: zodResolver(schema), defaultValues: { ...student } });
+    const { register, handleSubmit, watch, formState: { errors } } = useForm<StudentDetailsType>({ resolver: zodResolver(schema), defaultValues: { ...student, observation: "" } });
     const { isPending, mutateAsync } = useMutation({
         mutationKey: ["updateStudent"],
         mutationFn: (data: UpdateStudentRequest) => { return UpdateStudent(student.id, data) },
